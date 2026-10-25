@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reyting — EKOLOGY</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="auth.css">
+<style>
+.leaderboard-section{
+  background:radial-gradient(circle at 20% 10%,#4dff7a11,transparent 30%),#071b10;
+}
+.lb-stats{
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:15px; margin-bottom:50px;
+}
+.lb-stat{
+  padding:25px; background:#0d2819;
+  border:1px solid #ffffff0d; border-radius:20px;
+  transition:.3s;
+}
+.lb-stat:hover{ border-color:#5cff8d44; transform:translateY(-5px); }
+.lb-stat strong{
+  display:block; font-family:"Space Grotesk";
+  font-size:36px; color:#5cff8d; margin-bottom:5px;
+}
+.lb-stat span{ color:#718a79; font-size:12px; }
+.podium{
+  display:grid; grid-template-columns:1fr 1.2fr 1fr;
+  gap:20px; align-items:end; margin-bottom:50px;
+}
+.podium-item{
+  background:#0d2819; border:1px solid #ffffff0d;
+  border-radius:22px; padding:25px 20px;
+  text-align:center; position:relative; transition:.4s;
+}
+.podium-item:hover{
+  transform:translateY(-8px);
+  border-color:#5cff8d44;
+}
+.podium-item.first{
+  padding:35px 20px;
+  background:radial-gradient(circle at 50% 0%,#ffd70022,transparent 60%),#0d2819;
+  border-color:#ffd70055;
+  box-shadow:0 0 60px #ffd70022;
+}
+.podium-item.second{ border-color:#c0c0c055; }
+.podium-item.third{ border-color:#cd7f3255; }
+.crown{
+  position:absolute; top:-30px; left:50%;
+  transform:translateX(-50%);
+  font-size:38px;
+  animation:crownFloat 2s ease-in-out infinite;
+}
+@keyframes crownFloat{ 50%{ transform:translateX(-50%) translateY(-8px); } }
+.podium-avatar{
+  width:70px; height:70px; border-radius:50%;
+  display:grid; place-items:center;
+  margin:0 auto 10px;
+  font-family:"Space Grotesk";
+  font-size:28px; font-weight:800;
+  color:#031108;
+  background:linear-gradient(135deg,#18b957,#5cff8d);
+}
+.podium-item.first .podium-avatar{
+  background:linear-gradient(135deg,#ffd700,#ffaa00);
+}
+.podium-item.second .podium-avatar{
+  background:linear-gradient(135deg,#e0e0e0,#a0a0a0);
+}
+.podium-item.third .podium-avatar{
+  background:linear-gradient(135deg,#e0a060,#b07030);
+}
+.podium-name{
+  font-family:"Space Grotesk";
+  font-size:15px; font-weight:700;
+  margin-bottom:6px;
+}
+.podium-count{ color:#8fd8a0; font-size:12px; margin-bottom:8px; }
+.podium-prize{
+  font-family:"Space Grotesk";
+  font-size:22px; font-weight:800;
+  color:#5cff8d; margin-bottom:15px;
+}
+.podium-medal{ font-size:32px; margin-bottom:5px; }
+.lb-controls{ display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+.lb-search{
+  flex:1; min-width:250px;
+  padding:14px 18px;
+  background:#0d2819;
+  border:1px solid #ffffff0d;
+  border-radius:12px;
+  color:var(--text); font-family:inherit;
+  font-size:14px; outline:none;
+}
+.lb-search:focus{ border-color:#5cff8d; }
+.lb-filter{
+  padding:14px 18px;
+  background:#0d2819;
+  border:1px solid #ffffff0d;
+  border-radius:12px;
+  color:var(--text); font-family:inherit;
+  font-size:14px; cursor:pointer;
+}
+.leaderboard-table{
+  border:1px solid #ffffff0d;
+  border-radius:20px; overflow:hidden;
+  background:#0a1f13;
+}
+.lb-header{
+  display:grid;
+  grid-template-columns:70px 1fr 140px 160px;
+  padding:18px 25px;
+  background:#0d2819;
+  color:#718a79; font-size:11px;
+  letter-spacing:2px; font-weight:800;
+  border-bottom:1px solid #ffffff0d;
+}
+.lb-row{
+  display:grid;
+  grid-template-columns:70px 1fr 140px 160px;
+  padding:16px 25px;
+  align-items:center;
+  border-bottom:1px solid #ffffff08;
+  transition:.3s;
+}
+.lb-row:hover{ background:#ffffff05; }
+.lb-row:last-child{ border-bottom:0; }
+.lb-rank{
+  width:42px; height:42px;
+  display:grid; place-items:center;
+  border-radius:10px;
+  background:#ffffff08;
+  font-weight:800; font-size:14px;
+}
+.lb-rank.gold{
+  background:linear-gradient(135deg,#ffd700,#ffaa00);
+  color:#031108; font-size:20px;
+}
+.lb-rank.silver{
+  background:linear-gradient(135deg,#e0e0e0,#a0a0a0);
+  color:#031108; font-size:20px;
+}
+.lb-rank.bronze{
+  background:linear-gradient(135deg,#e0a060,#b07030);
+  color:#031108; font-size:20px;
+}
+.lb-name{
+  display:flex; align-items:center;
+  gap:12px; font-weight:600; font-size:14px;
+}
+.lb-avatar{
+  width:38px; height:38px;
+  border-radius:50%;
+  display:grid; place-items:center;
+  background:linear-gradient(135deg,#18b957,#5cff8d);
+  color:#031108; font-weight:800;
+  font-size:14px; flex-shrink:0;
+}
+.lb-name-text{ display:flex; flex-direction:column; }
+.lb-name-text small{ color:#5c7565; font-size:10px; font-weight:500; }
+.lb-count{ color:#8fd8a0; font-size:14px; font-weight:600; }
+.lb-prize{
+  font-family:"Space Grotesk";
+  font-weight:800; color:#5cff8d; font-size:16px;
+}
+.pagination{
+  display:flex; justify-content:center;
+  align-items:center; gap:8px;
+  margin-top:30px; flex-wrap:wrap;
+}
+.page-btn{
+  min-width:42px; height:42px;
+  padding:0 14px;
+  border-radius:10px;
+  border:1px solid #ffffff0d;
+  background:#0d2819;
+  color:var(--text);
+  font-family:inherit;
+  font-weight:700; font-size:13px;
+  cursor:pointer; transition:.3s;
+}
+.page-btn:hover:not(:disabled){
+  border-color:#5cff8d; color:#5cff8d;
+}
+.page-btn.active{
+  background:linear-gradient(135deg,#18b957,#5cff8d);
+  color:#031108; border-color:transparent;
+}
+.page-btn:disabled{ opacity:0.3; cursor:not-allowed; }
+.reward-info{
+  display:flex; align-items:center;
+  gap:20px; margin-top:35px;
+  padding:25px 30px;
+  background:linear-gradient(135deg,#5cff8d0d,#18b95708);
+  border:1px solid #5cff8d33;
+  border-radius:20px;
+}
+.reward-icon{ font-size:48px; }
+.reward-text strong{
+  display:block; font-family:"Space Grotesk";
+  font-size:20px; margin-bottom:5px;
+}
+.reward-text span{ color:#8fa89a; font-size:13px; line-height:1.6; }
+@media(max-width:900px){
+  .lb-stats{ grid-template-columns:1fr 1fr; }
+  .podium{ grid-template-columns:1fr; }
+  .podium-item.first{ order:-1; }
+  .lb-header{ grid-template-columns:60px 1fr 100px; font-size:10px; }
+  .lb-row{ grid-template-columns:60px 1fr 100px; }
+  .lb-prize{ display:none; }
+  .lb-header div:nth-child(4){ display:none; }
+}
+@media(max-width:600px){
+  .lb-stats{ grid-template-columns:1fr; }
+  .lb-header{ grid-template-columns:50px 1fr; }
+  .lb-row{ grid-template-columns:50px 1fr; }
+  .lb-count{ display:none; }
+  .lb-header div:nth-child(3){ display:none; }
+  .reward-info{ flex-direction:column; text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🌱</div>
+      EKOLOGY
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Bosh sahifa</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="sorting.html">Saralash</a></li>
+      <li><a href="trees.html">Daraxtlar</a></li>
+      <li><a href="alerts.html">Ogohlantirish</a></li>
+      <li><a href="leaderboard.html">Reyting</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeBtn">☼</button>
+      <div id="userMenu" style="display:none;position:relative;">
+        <button class="icon-btn" id="userBtn" style="display:flex;align-items:center;gap:8px;padding:0 14px;width:auto;">
+          <span id="userAvatar" style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#18b957,#5cff8d);display:grid;place-items:center;color:#031108;font-weight:800;font-size:13px;">U</span>
+          <span id="userName" style="font-size:13px;font-weight:600;">Foydalanuvchi</span>
+        </button>
+        <div id="userDropdown" style="display:none;position:absolute;top:55px;right:0;background:#0d2819;border:1px solid #ffffff12;border-radius:14px;padding:10px;min-width:220px;box-shadow:0 20px 50px #0008;z-index:100;">
+          <div style="padding:10px 15px;border-bottom:1px solid #ffffff0d;margin-bottom:5px;">
+            <div style="font-size:13px;font-weight:700;" id="dropdownName">Foydalanuvchi</div>
+            <div style="font-size:11px;color:#718a79;" id="dropdownEmail">email@example.com</div>
+          </div>
+          <a href="trees.html" class="dropdown-item">🌳 Daraxt ekish</a>
+          <a href="leaderboard.html" class="dropdown-item">🏆 Reyting</a>
+          <a href="blog.html" class="dropdown-item">📖 Blog</a>
+          <div style="height:1px;background:#ffffff0d;margin:5px 0;"></div>
+          <button id="logoutBtn" class="dropdown-logout">🚪 Chiqish</button>
+        </div>
+      </div>
+      <a href="login.html" class="primary" id="loginLink" style="text-decoration:none;display:inline-block;">🔐 Kirish</a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="container page-hero-content">
+    <div class="badge"><i></i>05 / LEADERBOARD</div>
+    <h1>Eng ko'p daraxt <span>ekkanlar</span></h1>
+    <p>Har bir ekilgan daraxt uchun <strong style="color:#5cff8d;">10$</strong> mukofot.</p>
+  </div>
+</section>
+
+<section class="section leaderboard-section">
+  <div class="container">
+    <div class="lb-stats reveal">
+      <div class="lb-stat"><strong id="statUsers">0</strong><span>Faol foydalanuvchilar</span></div>
+      <div class="lb-stat"><strong id="statTrees">0</strong><span>Jami ekilgan daraxt</span></div>
+      <div class="lb-stat"><strong id="statPrize">$0</strong><span>Jami mukofot</span></div>
+      <div class="lb-stat"><strong id="statAvg">0</strong><span>O'rtacha daraxt</span></div>
+    </div>
+
+    <div class="podium reveal" id="podium"></div>
+
+    <div class="lb-controls reveal">
+      <input type="text" class="lb-search" id="searchInput" placeholder="🔍 Ism yoki viloyat bo'yicha qidirish...">
+      <select class="lb-filter" id="sortFilter">
+        <option value="trees">Daraxtlar bo'yicha</option>
+        <option value="name">Ism bo'yicha</option>
+        <option value="prize">Mukofot bo'yicha</option>
+      </select>
+    </div>
+
+    <div class="leaderboard-table reveal">
+      <div class="lb-header">
+        <div>#</div>
+        <div>Ism</div>
+        <div>Daraxtlar</div>
+        <div>Mukofot</div>
+      </div>
+      <div id="lbBody"></div>
+    </div>
+
+    <div class="pagination" id="pagination"></div>
+
+    <div class="reward-info reveal">
+      <div class="reward-icon">💵</div>
+      <div class="reward-text">
+        <strong>Har bir daraxt = 10$</strong>
+        <span>Daraxt ekkaningizda avtomatik hisoblanadi.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0;">
+      <span>© 2026 EKOLOGY</span>
+      <span>Made with 🌱 for Earth</span>
+    </div>
+  </div>
+</footer>
+
+<script src="auth.js"></script>
+<script src="script.js"></script>
+<script>
+(function(){
+const firstNames = ["Bekzod","Aziza","Dilnoza","Sardor","Malika","Jasur","Nilufar","Otabek","Zulfiya","Rustam","Gulnora","Shavkat","Madina","Aziz","Kamola","Farrux","Sevara","Ulugbek","Nargiza","Bahodir","Lola","Sherzod","Dildora","Alisher","Munisa","Javohir","Gulbahor","Sanjar","Rayhona","Temur","Shahnoza","Islom","Zilola","Anvar","Dilfuza","Bobur","Maftuna","Akmal","Robiya","Jahongir","Sadoqat","Nodir","Yulduz","Xurshid","Oygul","Suhrob","Nasiba","Davron","Zarina","Elyor","Farida","Murod","Shahzoda","Umid","Fotima","Bahrom","Mohira","Akbar","Umida","Nurbek","Ozoda","Kamron","Nigora","Javlon","Marjona","Islombek","Diyora","Asadbek","Sitora","Jamshid","Ruxshona","Doston","Iroda","Sirojiddin","Zebo","Komil","Nafisa","Humoyun","Xadicha","Ravshan","Gavhar","Sunnat","Oysha","Elbek","Nodira","Shohruh","Laziza","Davlat","Firuza","Kamol","Sabina","Ilhom","Zamira","Bahodir","Gulchehra","Doniyor","Shirin","Azamat","Zulayho","Rahmon","Muborak","Yodgor","Shoira","Xasan","Rano","Tohir","Karima","Vohid","Halima","Abbos","Nazokat"];
+const lastNames = ["Rahimov","Karimova","Yusupova","Toshmatov","Abdullayeva","Nematov","Ergasheva","Xolmatov","Saidova","Mirzayev","Rasulova","Qodirov","Ismoilova","Sultonov","Yoldosheva","Axmedov","Nazarova","Tursunov","Xasanova","Olimov","Sobirova","Raximov","Tolipova","Umarov","Islomova","Sharipov","Norova","Xudoyberdiyev","Zaripova","Bekmurodov","Alimova","Maxmudov","Sattorova","Norboyev","Jo'rayeva","Yusupov","Kamalova","Xolov","Davlatova","Saidov","Mamatova","Ergashev","Ruziyeva","Nurmatov","Sobirov","Xolmatova","Usmonov","Nazarov","Berdiyeva","Ravshanov","Tursunova","Mirzayeva","Sattorov","Yunusov"];
+const regions = ["Toshkent","Samarqand","Buxoro","Andijon","Farg'ona","Namangan","Qashqadaryo","Surxondaryo","Jizzax","Sirdaryo","Navoiy","Xorazm","Qoraqalpog'iston"];
+
+function random(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+function randomName(){
+  return firstNames[random(0, firstNames.length - 1)] + " " + lastNames[random(0, lastNames.length - 1)];
+}
+
+function generateUsers(count){
+  const users = [];
+  const usedNames = new Set();
+  for(let i = 0; i < count; i++){
+    let name, attempts = 0;
+    do { name = randomName(); attempts++; } while(usedNames.has(name) && attempts < 20);
+    usedNames.add(name);
+    const trees = random(15, 2500);
+    users.push({
+      id: i + 1, name: name, trees: trees,
+      prize: trees * 10,
+      region: regions[random(0, regions.length - 1)]
+    });
+  }
+  users.sort((a, b) => b.trees - a.trees);
+  users.forEach((u, i) => u.rank = i + 1);
+  return users;
+}
+
+const allUsers = generateUsers(150);
+
+const totalUsers = allUsers.length;
+const totalTrees = allUsers.reduce((s, u) => s + u.trees, 0);
+const totalPrize = allUsers.reduce((s, u) => s + u.prize, 0);
+const avgTrees = Math.round(totalTrees / totalUsers);
+
+function animateNumber(el, target, prefix, suffix){
+  prefix = prefix || ""; suffix = suffix || "";
+  let current = 0;
+  const step = Math.max(1, Math.ceil(target / 60));
+  const timer = setInterval(() => {
+    current += step;
+    if(current >= target){ current = target; clearInterval(timer); }
+    el.textContent = prefix + current.toLocaleString() + suffix;
+  }, 25);
+}
+
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      animateNumber(document.getElementById('statUsers'), totalUsers);
+      animateNumber(document.getElementById('statTrees'), totalTrees);
+      animateNumber(document.getElementById('statPrize'), totalPrize, "$");
+      animateNumber(document.getElementById('statAvg'), avgTrees);
+      statsObserver.disconnect();
+    }
+  });
+});
+statsObserver.observe(document.querySelector('.lb-stats'));
+
+function renderPodium(){
+  const podium = document.getElementById('podium');
+  const top3 = allUsers.slice(0, 3);
+  const order = [top3[1], top3[0], top3[2]];
+  const classes = ['second', 'first', 'third'];
+  const medals = ['🥈', '🥇', '🥉'];
+  const crowns = ['', '<div class="crown">👑</div>', ''];
+  let html = '';
+  order.forEach((u, i) => {
+    html += '<div class="podium-item ' + classes[i] + '">'
+      + crowns[i]
+      + '<div class="podium-medal">' + medals[i] + '</div>'
+      + '<div class="podium-avatar">' + u.name.charAt(0) + '</div>'
+      + '<div class="podium-name">' + u.name + '</div>'
+      + '<div class="podium-count">' + u.trees.toLocaleString() + ' ta daraxt</div>'
+      + '<div class="podium-prize">$' + u.prize.toLocaleString() + '</div>'
+      + '</div>';
+  });
+  podium.innerHTML = html;
+}
+renderPodium();
+
+let lbPage = 1;
+const LB_PER_PAGE = 20;
+let lbFiltered = allUsers.slice();
+const lbBody = document.getElementById('lbBody');
+const pagination = document.getElementById('pagination');
+
+function renderTable(){
+  const start = (lbPage - 1) * LB_PER_PAGE;
+  const pageUsers = lbFiltered.slice(start, start + LB_PER_PAGE);
+  let html = '';
+  pageUsers.forEach(u => {
+    let rankClass = '', rankContent = u.rank;
+    if(u.rank === 1){ rankClass = 'gold'; rankContent = '🥇'; }
+    else if(u.rank === 2){ rankClass = 'silver'; rankContent = '🥈'; }
+    else if(u.rank === 3){ rankClass = 'bronze'; rankContent = '🥉'; }
+    html += '<div class="lb-row">'
+      + '<div class="lb-rank ' + rankClass + '">' + rankContent + '</div>'
+      + '<div class="lb-name">'
+      + '<div class="lb-avatar">' + u.name.charAt(0) + '</div>'
+      + '<div class="lb-name-text"><span>' + u.name + '</span><small>📍 ' + u.region + '</small></div>'
+      + '</div>'
+      + '<div class="lb-count">' + u.trees.toLocaleString() + '</div>'
+      + '<div class="lb-prize">$' + u.prize.toLocaleString() + '</div>'
+      + '</div>';
+  });
+  lbBody.innerHTML = html;
+}
+
+function renderPagination(){
+  const totalPages = Math.ceil(lbFiltered.length / LB_PER_PAGE);
+  pagination.innerHTML = '';
+
+  const prev = document.createElement('button');
+  prev.className = 'page-btn';
+  prev.textContent = '←';
+  prev.disabled = lbPage === 1;
+  prev.onclick = () => { lbPage--; renderTable(); renderPagination(); };
+  pagination.appendChild(prev);
+
+  const pages = [];
+  if(totalPages <= 5){
+    for(let i = 1; i <= totalPages; i++) pages.push(i);
+  } else {
+    pages.push(1);
+    let start = Math.max(2, lbPage - 1);
+    let end = Math.min(totalPages - 1, lbPage + 1);
+    if(lbPage <= 3){ start = 2; end = 4; }
+    if(lbPage >= totalPages - 2){ start = totalPages - 3; end = totalPages - 1; }
+    if(start > 2) pages.push('...');
+    for(let i = start; i <= end; i++) pages.push(i);
+    if(end < totalPages - 1) pages.push('...');
+    pages.push(totalPages);
+  }
+
+  pages.forEach(p => {
+    if(p === '...'){
+      const span = document.createElement('span');
+      span.textContent = '...';
+      span.style.color = '#5c7565';
+      span.style.padding = '0 8px';
+      pagination.appendChild(span);
+    } else {
+      const btn = document.createElement('button');
+      btn.className = 'page-btn' + (p === lbPage ? ' active' : '');
+      btn.textContent = p;
+      btn.onclick = () => { lbPage = p; renderTable(); renderPagination(); };
+      pagination.appendChild(btn);
+    }
+  });
+
+  const next = document.createElement('button');
+  next.className = 'page-btn';
+  next.textContent = '→';
+  next.disabled = lbPage === totalPages;
+  next.onclick = () => { lbPage++; renderTable(); renderPagination(); };
+  pagination.appendChild(next);
+}
+
+renderTable();
+renderPagination();
+
+const searchInput = document.getElementById('searchInput');
+const sortFilter = document.getElementById('sortFilter');
+
+function applyFilters(){
+  const query = searchInput.value.toLowerCase().trim();
+  const sortBy = sortFilter.value;
+  lbFiltered = allUsers.filter(u =>
+    u.name.toLowerCase().indexOf(query) !== -1 ||
+    u.region.toLowerCase().indexOf(query) !== -1
+  );
+  if(sortBy === 'trees') lbFiltered.sort((a, b) => b.trees - a.trees);
+  else if(sortBy === 'name') lbFiltered.sort((a, b) => a.name.localeCompare(b.name));
+  else if(sortBy === 'prize') lbFiltered.sort((a, b) => b.prize - a.prize);
+  lbFiltered.forEach((u, i) => u.rank = i + 1);
+  lbPage = 1;
+  renderTable();
+  renderPagination();
+}
+
+searchInput.addEventListener('input', applyFilters);
+sortFilter.addEventListener('change', applyFilters);
+
+setTimeout(() => {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
+}, 100);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saralash — EKOLOGY</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="auth.css">
+<style>
+.factory{
+  height:420px;
+  border-radius:30px;
+  position:relative;
+  overflow:hidden;
+  background:radial-gradient(circle at 70% 20%,#2b9a5022,transparent 30%),#091f13;
+  border:1px solid #ffffff0d;
+}
+.factory-title{
+  position:absolute; top:25px; left:25px;
+  font-size:10px; letter-spacing:2px; color:#648070;
+}
+.conveyor{
+  position:absolute;
+  left:-10%; right:-10%; bottom:100px;
+  height:90px;
+  background:repeating-linear-gradient(90deg,#162f20 0 40px,#0c1e14 40px 80px);
+  border-top:5px solid #294e37;
+  border-bottom:5px solid #294e37;
+  transform:rotate(-4deg);
+}
+.trash{
+  position:absolute; font-size:43px; z-index:3;
+  animation:trashMove 5s linear infinite;
+}
+.trash1{ top:110px; animation-delay:0s; }
+.trash2{ top:190px; animation-delay:1.3s; }
+.trash3{ top:75px; animation-delay:2.4s; }
+@keyframes trashMove{
+  from{ left:-80px; transform:rotate(0); }
+  to{ left:105%; transform:rotate(360deg); }
+}
+.bin{
+  position:absolute; bottom:18px;
+  width:95px; height:75px;
+  border-radius:8px 8px 15px 15px;
+  background:#174b2a;
+  display:grid; place-items:center;
+  font-size:25px;
+  border-top:5px solid #4c9c61;
+}
+.bin:before{
+  content:"";
+  position:absolute; top:-13px;
+  width:110px; height:12px;
+  border-radius:5px;
+  background:#28653a;
+}
+.bin1{ left:10%; }
+.bin2{ left:42%; background:#245d75; }
+.bin3{ right:10%; background:#71652a; }
+.sort-list{ margin-top:30px; display:grid; gap:10px; }
+.sort-item{
+  display:flex; align-items:center; gap:14px;
+  padding:14px;
+  background:#ffffff05;
+  border:1px solid #ffffff0b;
+  border-radius:14px;
+}
+.sort-icon{
+  width:45px; height:45px;
+  display:grid; place-items:center;
+  background:#ffffff08; border-radius:12px;
+  font-size:22px;
+}
+.sort-item strong{ font-size:13px; }
+.sort-item span{
+  display:block; color:#65806f;
+  font-size:10px; margin-top:3px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🌱</div>
+      EKOLOGY
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Bosh sahifa</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="sorting.html">Saralash</a></li>
+      <li><a href="trees.html">Daraxtlar</a></li>
+      <li><a href="alerts.html">Ogohlantirish</a></li>
+      <li><a href="leaderboard.html">Reyting</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeBtn">☼</button>
+      <div id="userMenu" style="display:none;position:relative;">
+        <button class="icon-btn" id="userBtn" style="display:flex;align-items:center;gap:8px;padding:0 14px;width:auto;">
+          <span id="userAvatar" style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#18b957,#5cff8d);display:grid;place-items:center;color:#031108;font-weight:800;font-size:13px;">U</span>
+          <span id="userName" style="font-size:13px;font-weight:600;">Foydalanuvchi</span>
+        </button>
+        <div id="userDropdown" style="display:none;position:absolute;top:55px;right:0;background:#0d2819;border:1px solid #ffffff12;border-radius:14px;padding:10px;min-width:220px;box-shadow:0 20px 50px #0008;z-index:100;">
+          <div style="padding:10px 15px;border-bottom:1px solid #ffffff0d;margin-bottom:5px;">
+            <div style="font-size:13px;font-weight:700;" id="dropdownName">Foydalanuvchi</div>
+            <div style="font-size:11px;color:#718a79;" id="dropdownEmail">email@example.com</div>
+          </div>
+          <a href="trees.html" class="dropdown-item">🌳 Daraxt ekish</a>
+          <a href="leaderboard.html" class="dropdown-item">🏆 Reyting</a>
+          <a href="blog.html" class="dropdown-item">📖 Blog</a>
+          <div style="height:1px;background:#ffffff0d;margin:5px 0;"></div>
+          <button id="logoutBtn" class="dropdown-logout">🚪 Chiqish</button>
+        </div>
+      </div>
+      <a href="login.html" class="primary" id="loginLink" style="text-decoration:none;display:inline-block;">🔐 Kirish</a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="container page-hero-content">
+    <div class="badge"><i></i>02 / ACTION</div>
+    <h1>Chiqindini <span>sarala</span></h1>
+    <p>Har bir chiqindining o'z joyi bor.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid-2">
+      <div class="reveal">
+        <h3 style="font-family:'Space Grotesk';font-size:32px;margin-bottom:17px;">
+          4 xil chiqindi.<br>Bitta yashil kelajak.
+        </h3>
+        <p style="color:var(--muted);line-height:1.8;font-size:14px;">
+          Uyda chiqindilarni ajratish orqali qayta ishlashga yuboriladigan materiallar miqdorini oshirish mumkin.
+        </p>
+        <div class="sort-list">
+          <div class="sort-item">
+            <div class="sort-icon">📦</div>
+            <div><strong>Qog'oz</strong><span>Karton, daftar, gazeta</span></div>
+          </div>
+          <div class="sort-item">
+            <div class="sort-icon">🥤</div>
+            <div><strong>Plastik</strong><span>Butilka, idishlar</span></div>
+          </div>
+          <div class="sort-item">
+            <div class="sort-icon">🍾</div>
+            <div><strong>Shisha</strong><span>Banka, shisha butilkalar</span></div>
+          </div>
+          <div class="sort-item">
+            <div class="sort-icon">🍎</div>
+            <div><strong>Organik</strong><span>Meva, sabzavot va oziq-ovqat</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="factory reveal">
+        <div class="factory-title">RECYCLING STATION / LIVE</div>
+        <div class="trash trash1">🥤</div>
+        <div class="trash trash2">📦</div>
+        <div class="trash trash3">🍾</div>
+        <div class="conveyor"></div>
+        <div class="bin bin1">📦</div>
+        <div class="bin bin2">🥤</div>
+        <div class="bin bin3">🍾</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0;">
+      <span>© 2026 EKOLOGY</span>
+      <span>Made with 🌱 for Earth</span>
+    </div>
+  </div>
+</footer>
+
+<script src="auth.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

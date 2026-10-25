@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — EKOLOGY</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="auth.css">
+<style>
+.article-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(3,11,6,0.92);
+  backdrop-filter:blur(10px);
+  z-index:2000;
+  display:none;
+  justify-content:center;
+  align-items:flex-start;
+  padding:40px 20px;
+  overflow-y:auto;
+}
+.article-modal.open{ display:flex; animation:fadeIn 0.3s ease; }
+@keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+.article-content{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:25px;
+  max-width:800px;
+  width:100%;
+  padding:50px;
+  position:relative;
+  animation:slideUp 0.4s cubic-bezier(.34,1.56,.64,1);
+  margin:auto;
+}
+@keyframes slideUp{
+  from{ transform:translateY(50px); opacity:0; }
+  to{ transform:translateY(0); opacity:1; }
+}
+.article-close{
+  position:absolute;
+  top:20px; right:20px;
+  width:44px; height:44px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#ffffff08;
+  color:var(--text);
+  font-size:22px;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+}
+.article-close:hover{
+  background:#ff4444;
+  color:#fff;
+  border-color:#ff4444;
+  transform:rotate(90deg);
+}
+.article-hero-icon{
+  font-size:80px;
+  text-align:center;
+  margin-bottom:25px;
+}
+.article-tag{
+  display:inline-block;
+  padding:6px 14px;
+  background:linear-gradient(135deg,#18b957,#5cff8d);
+  color:#031108;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2px;
+  margin-bottom:15px;
+}
+.article-title{
+  font-family:"Space Grotesk";
+  font-size:clamp(28px,4vw,42px);
+  line-height:1.2;
+  letter-spacing:-1.5px;
+  margin-bottom:20px;
+}
+.article-meta{
+  display:flex;
+  gap:20px;
+  color:var(--muted);
+  font-size:13px;
+  padding-bottom:25px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:30px;
+  flex-wrap:wrap;
+}
+.article-body{
+  font-size:16px;
+  line-height:1.9;
+}
+.article-body h2{
+  font-family:"Space Grotesk";
+  font-size:26px;
+  margin:35px 0 15px;
+  color:#5cff8d;
+}
+.article-body h3{
+  font-family:"Space Grotesk";
+  font-size:20px;
+  margin:25px 0 12px;
+  color:#7CFC00;
+}
+.article-body p{ margin-bottom:18px; }
+.article-body ul, .article-body ol{ margin:15px 0 20px 25px; line-height:1.9; }
+.article-body li{ margin-bottom:10px; }
+.article-body strong{ color:#5cff8d; font-weight:700; }
+.article-body blockquote{
+  border-left:4px solid #5cff8d;
+  padding:15px 25px;
+  margin:25px 0;
+  background:#5cff8d08;
+  border-radius:0 12px 12px 0;
+  font-style:italic;
+  color:#a8d8b0;
+}
+@media(max-width:600px){
+  .article-content{ padding:30px 20px; }
+  .article-hero-icon{ font-size:60px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🌱</div>
+      EKOLOGY
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Bosh sahifa</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="sorting.html">Saralash</a></li>
+      <li><a href="trees.html">Daraxtlar</a></li>
+      <li><a href="alerts.html">Ogohlantirish</a></li>
+      <li><a href="leaderboard.html">Reyting</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeBtn">☼</button>
+      <div id="userMenu" style="display:none;position:relative;">
+        <button class="icon-btn" id="userBtn" style="display:flex;align-items:center;gap:8px;padding:0 14px;width:auto;">
+          <span id="userAvatar" style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#18b957,#5cff8d);display:grid;place-items:center;color:#031108;font-weight:800;font-size:13px;">U</span>
+          <span id="userName" style="font-size:13px;font-weight:600;">Foydalanuvchi</span>
+        </button>
+        <div id="userDropdown" style="display:none;position:absolute;top:55px;right:0;background:#0d2819;border:1px solid #ffffff12;border-radius:14px;padding:10px;min-width:220px;box-shadow:0 20px 50px #0008;z-index:100;">
+          <div style="padding:10px 15px;border-bottom:1px solid #ffffff0d;margin-bottom:5px;">
+            <div style="font-size:13px;font-weight:700;" id="dropdownName">Foydalanuvchi</div>
+            <div style="font-size:11px;color:#718a79;" id="dropdownEmail">email@example.com</div>
+          </div>
+          <a href="trees.html" class="dropdown-item">🌳 Daraxt ekish</a>
+          <a href="leaderboard.html" class="dropdown-item">🏆 Reyting</a>
+          <a href="blog.html" class="dropdown-item">📖 Blog</a>
+          <div style="height:1px;background:#ffffff0d;margin:5px 0;"></div>
+          <button id="logoutBtn" class="dropdown-logout">🚪 Chiqish</button>
+        </div>
+      </div>
+      <a href="login.html" class="primary" id="loginLink" style="text-decoration:none;display:inline-block;">🔐 Kirish</a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="container page-hero-content">
+    <div class="badge"><i></i>01 / KNOWLEDGE</div>
+    <h1>Ekologik <span>blog</span></h1>
+    <p>Maqolalarni bosib to'liq o'qing.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid-3" id="blogGrid"></div>
+  </div>
+</section>
+
+<div class="article-modal" id="articleModal">
+  <div class="article-content">
+    <button class="article-close" id="articleClose">✕</button>
+    <div class="article-hero-icon" id="articleIcon">🌍</div>
+    <div style="text-align:center;">
+      <span class="article-tag" id="articleTag">IQLIM</span>
+    </div>
+    <h1 class="article-title" id="articleTitle"></h1>
+    <div class="article-meta">
+      <span>✍️ <span id="articleAuthor"></span></span>
+      <span>📅 <span id="articleDate"></span></span>
+      <span>⏱️ <span id="articleRead"></span></span>
+    </div>
+    <div class="article-body" id="articleBody"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0;">
+      <span>© 2026 EKOLOGY</span>
+      <span>Made with 🌱 for Earth</span>
+    </div>
+  </div>
+</footer>
+
+<script src="auth.js"></script>
+<script src="script.js"></script>
+<script>
+(function(){
+const articles = [
+  { id:1, icon:"🌍", tag:"IQLIM", title:"Iqlim o'zgarishi hayotimizga qanday ta'sir qiladi?", author:"Aziza Karimova", date:"12.03.2025", read:"5 daqiqa", short:"Global isish, issiqxona gazlari va kelajak uchun nimalar qilishimiz mumkinligi haqida.", color:"radial-gradient(circle at 30% 30%,#63ff8c44,transparent 30%),#123c24",
+    body:`<p>Iqlim o'zgarishi — bu <strong>XXI asrning eng katta ekologik muammosi</strong>. So'nggi 100 yil ichida Yer yuzasining o'rtacha harorati <strong>1.1°C</strong> ga ko'tarildi.</p>
+    <h2>🌡️ Nima uchun isiyapti?</h2>
+    <p>Asosiy sabab — <strong>issiqxona gazlari</strong>. Zavodlar, avtomobillar va elektr stansiyalari atmosferaga karbonat angidrid chiqaradi.</p>
+    <blockquote>"Agar biz hozir harakat qilmasak, 2100-yilga kelib harorat 4°C ga ko'tarilishi mumkin."</blockquote>
+    <h2>🌊 Oqibatlari</h2>
+    <ul><li><strong>Muzliklar erishi</strong></li><li><strong>Dengiz sathining ko'tarilishi</strong></li><li><strong>Ob-havoning buzilishi</strong></li><li><strong>Biologik xilma-xillikning kamayishi</strong></li></ul>
+    <h2>✅ Nima qilishimiz mumkin?</h2>
+    <ol><li>Toza energiyaga o'tish</li><li>Daraxt ekish</li><li>Transportni optimallashtirish</li><li>Chiqindini kamaytirish</li></ol>
+    <h2>🌱 Xulosa</h2><p>Har birimiz kichik qadamlar bilan katta o'zgarish qilishimiz mumkin.</p>` },
+  { id:2, icon:"♻️", tag:"CHIQINDI", title:"Chiqindilarni to'g'ri saralash", author:"Bekzod Rahimov", date:"08.03.2025", read:"4 daqiqa", short:"Plastik, qog'oz, shisha va organik chiqindilarni ajratishni o'rganing.", color:"radial-gradient(circle at 70% 20%,#58c9ff33,transparent 30%),#102f32",
+    body:`<p>Har yili dunyo bo'yicha <strong>2 milliard tonnadan ortiq</strong> maishiy chiqindi hosil bo'ladi.</p>
+    <h2>🗑️ Chiqindi turlari</h2><h3>📦 Qog'oz</h3><p>Gazeta, jurnal, karton</p><h3>🥤 Plastik</h3><p>PET butilkalar, idishlar</p><h3>🍾 Shisha</h3><p>Butilkalar, bankalar</p><h3>🍎 Organik</h3><p>Meva-sabzavot qoldiqlari</p>
+    <blockquote>"To'g'ri saralangan chiqindi — bu chiqindi emas, balki xom ashyo."</blockquote>` },
+  { id:3, icon:"🌳", tag:"YASHIL HAYOT", title:"Daraxtlar nega juda muhim?", author:"Dilnoza Yusupova", date:"05.03.2025", read:"6 daqiqa", short:"Daraxtlarning havo, suv va biologik xilma-xillikdagi o'rni.", color:"radial-gradient(circle at 30% 30%,#ffe06733,transparent 30%),#353317",
+    body:`<p>Bir daraxt yiliga <strong>20 kg CO₂</strong> ni yutadi va <strong>100 kg kislorod</strong> ishlab chiqaradi.</p>
+    <h2>🌬️ Havoni tozalash</h2><p>Daraxtlar barglari orqali havoni filtrlaydi.</p>
+    <h2>💧 Suv aylanishi</h2><p>Bitta katta daraxt kuniga <strong>400 litrgacha suv</strong> bug'lanadi.</p>
+    <h2>🐦 Biologik xilma-xillik</h2><p>Bitta daraxt <strong>100 dan ortiq</strong> turdagi hayvonlar uchun uy.</p>` },
+  { id:4, icon:"💧", tag:"SUV", title:"Suvni tejashning 10 usuli", author:"Sardor Toshmatov", date:"01.03.2025", read:"4 daqiqa", short:"Kundalik hayotda suvni tejash bo'yicha amaliy maslahatlar.", color:"radial-gradient(circle at 30% 30%,#58c9ff33,transparent 30%),#102f32",
+    body:`<p>Yer yuzasining <strong>71%</strong> suv, lekin faqat <strong>3%</strong> chuchuk suv.</p>
+    <h2>💡 10 ta usul</h2><ol><li>Tish yuvganda jo'mrakni yoping</li><li>Dushda qisqa turing</li><li>Sisternani tejamkor qiling</li><li>Idishlarni yig'ib yuving</li><li>Kir mashinasini to'ldiring</li><li>Oqayotgan jo'mrakni tuzating</li><li>Yomg'ir suvini yig'ing</li><li>Mashinani chelakda yuving</li><li>Sabzavotlarni idishda yuving</li><li>Bolalarga o'rgating</li></ol>` },
+  { id:5, icon:"🐝", tag:"BIOLOGIK XILMA-XILLIK", title:"Asalarilar yo'qolsa nima bo'ladi?", author:"Malika Abdullayeva", date:"25.02.2025", read:"5 daqiqa", short:"Asalarilarning ekotizimdagi roli va ularni asrash yo'llari.", color:"radial-gradient(circle at 70% 20%,#ffe06733,transparent 30%),#353317",
+    body:`<p>Dunyo bo'yicha oziq-ovqatning <strong>1/3 qismi</strong> asalarilarga bog'liq.</p>
+    <h2>🌸 Nima qiladilar?</h2><p>Asalarilar <strong>changlatish</strong> jarayonini amalga oshiradi.</p>
+    <h2>⚠️ Nima uchun yo'qolmoqda?</h2><ol><li>Pestitsidlar</li><li>Yashash joyining yo'qolishi</li><li>Iqlim o'zgarishi</li><li>Kasalliklar</li></ol>
+    <blockquote>"Asalarilar yo'qolsa, insoniyat 4 yil ichida yo'q bo'ladi." — Albert Einstein</blockquote>` },
+  { id:6, icon:"⚡", tag:"ENERGIYA", title:"Toza energiya manbalari", author:"Jasur Nematov", date:"20.02.2025", read:"5 daqiqa", short:"Quyosh, shamol va suv energiyasi haqida asosiy ma'lumotlar.", color:"radial-gradient(circle at 30% 30%,#63ff8c44,transparent 30%),#123c24",
+    body:`<p>Toza energiya — bu kelajak.</p>
+    <h2>☀️ Quyosh energiyasi</h2><p>Eng katta energiya manbai.</p>
+    <h2>💨 Shamol energiyasi</h2><p><strong>1 MW</strong> turbina <strong>350 uy</strong>ni ta'minlaydi.</p>
+    <h2>💧 Suv energiyasi</h2><p>Dunyo elektrning <strong>16%</strong> GES'lardan.</p>
+    <h2>📊 O'zbekistonda</h2><p><strong>300+ quyoshli kun</strong> yiliga.</p>` }
+];
+
+const blogGrid = document.getElementById('blogGrid');
+let html = '';
+articles.forEach(a => {
+  html += '<article class="card reveal" data-id="' + a.id + '">'
+    + '<div class="card-image" style="background:' + a.color + ';">' + a.icon + '</div>'
+    + '<div class="card-body">'
+    + '<div class="card-tag">' + a.tag + '</div>'
+    + '<h3>' + a.title + '</h3>'
+    + '<p>' + a.short + '</p>'
+    + '<span class="read-more">O\'qish →</span>'
+    + '</div></article>';
+});
+blogGrid.innerHTML = html;
+
+const modal = document.getElementById('articleModal');
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', function(){
+    const id = parseInt(this.dataset.id);
+    const a = articles.find(x => x.id === id);
+    if(!a) return;
+    document.getElementById('articleIcon').textContent = a.icon;
+    document.getElementById('articleTag').textContent = a.tag;
+    document.getElementById('articleTitle').textContent = a.title;
+    document.getElementById('articleAuthor').textContent = a.author;
+    document.getElementById('articleDate').textContent = a.date;
+    document.getElementById('articleRead').textContent = a.read;
+    document.getElementById('articleBody').innerHTML = a.body;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+document.getElementById('articleClose').addEventListener('click', () => {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+});
+
+modal.addEventListener('click', e => {
+  if(e.target === modal){
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && modal.classList.contains('open')){
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+setTimeout(() => {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
+}, 100);
+})();
+</script>
+</body>
+</html>

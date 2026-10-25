@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ogohlantirishlar — EKOLOGY</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="auth.css">
+<style>
+.alert-section{ background:#f5faf5; color:#10281a; }
+.alert-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.alert-card{
+  min-height:260px; padding:28px;
+  border-radius:25px; background:#fff;
+  border:1px solid #dce9de; transition:.4s;
+}
+.alert-card:hover{ transform:translateY(-8px); box-shadow:0 20px 50px #214c2a14; }
+.alert-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; }
+.alert-icon{ font-size:42px; }
+.status{ font-size:9px; padding:6px 9px; border-radius:30px; font-weight:800; }
+.red{ background:#ffe4e1; color:#bb392f; }
+.orange{ background:#fff0d5; color:#a86c15; }
+.blue{ background:#dff2ff; color:#2075a0; }
+.alert-card h3{ font-family:"Space Grotesk"; font-size:23px; margin-bottom:10px; }
+.alert-card p{ color:#6b7d71; font-size:13px; line-height:1.7; }
+.alert-footer{ margin-top:22px; padding-top:15px; border-top:1px solid #e7eee8; color:#6c8173; font-size:10px; }
+@media(max-width:900px){ .alert-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🌱</div>
+      EKOLOGY
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Bosh sahifa</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="sorting.html">Saralash</a></li>
+      <li><a href="trees.html">Daraxtlar</a></li>
+      <li><a href="alerts.html">Ogohlantirish</a></li>
+      <li><a href="leaderboard.html">Reyting</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeBtn">☼</button>
+      <div id="userMenu" style="display:none;position:relative;">
+        <button class="icon-btn" id="userBtn" style="display:flex;align-items:center;gap:8px;padding:0 14px;width:auto;">
+          <span id="userAvatar" style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#18b957,#5cff8d);display:grid;place-items:center;color:#031108;font-weight:800;font-size:13px;">U</span>
+          <span id="userName" style="font-size:13px;font-weight:600;">Foydalanuvchi</span>
+        </button>
+        <div id="userDropdown" style="display:none;position:absolute;top:55px;right:0;background:#0d2819;border:1px solid #ffffff12;border-radius:14px;padding:10px;min-width:220px;box-shadow:0 20px 50px #0008;z-index:100;">
+          <div style="padding:10px 15px;border-bottom:1px solid #ffffff0d;margin-bottom:5px;">
+            <div style="font-size:13px;font-weight:700;" id="dropdownName">Foydalanuvchi</div>
+            <div style="font-size:11px;color:#718a79;" id="dropdownEmail">email@example.com</div>
+          </div>
+          <a href="trees.html" class="dropdown-item">🌳 Daraxt ekish</a>
+          <a href="leaderboard.html" class="dropdown-item">🏆 Reyting</a>
+          <a href="blog.html" class="dropdown-item">📖 Blog</a>
+          <div style="height:1px;background:#ffffff0d;margin:5px 0;"></div>
+          <button id="logoutBtn" class="dropdown-logout">🚪 Chiqish</button>
+        </div>
+      </div>
+      <a href="login.html" class="primary" id="loginLink" style="text-decoration:none;display:inline-block;">🔐 Kirish</a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="container page-hero-content">
+    <div class="badge"><i></i>04 / ALERTS</div>
+    <h1>Tabiatdan <span>ogohlantirish</span></h1>
+    <p>Tabiiy xavflar haqida oldindan xabardor bo'ling.</p>
+  </div>
+</section>
+
+<section class="section alert-section">
+  <div class="container">
+    <div class="alert-grid">
+      <article class="alert-card reveal">
+        <div class="alert-top">
+          <div class="alert-icon">🌪️</div>
+          <span class="status red">DIQQAT</span>
+        </div>
+        <h3>Tornado</h3>
+        <p>Kuchli aylanuvchi shamol kuzatilganda mustahkam yopiq binoga kiring va derazalardan uzoqroq turing.</p>
+        <div class="alert-footer">⚠️ Mahalliy favqulodda xizmatlar ko'rsatmalariga amal qiling.</div>
+      </article>
+
+      <article class="alert-card reveal">
+        <div class="alert-top">
+          <div class="alert-icon">🌊</div>
+          <span class="status orange">EHTIYOT</span>
+        </div>
+        <h3>Suv toshqini</h3>
+        <p>Suv sathi ko'tarilayotgan hududlardan uzoqlashing. Past joylarda qolib ketmaslikka harakat qiling.</p>
+        <div class="alert-footer">⚠️ Zarur bo'lsa yuqoriroq xavfsiz joyga boring.</div>
+      </article>
+
+      <article class="alert-card reveal">
+        <div class="alert-top">
+          <div class="alert-icon">🌫️</div>
+          <span class="status blue">MA'LUMOT</span>
+        </div>
+        <h3>Havo sifati</h3>
+        <p>Havo sifati yomonlashganda tashqaridagi uzoq jismoniy faollikni kamaytirish ma'qul.</p>
+        <div class="alert-footer">💨 Havo sifatini mahalliy manbalardan tekshiring.</div>
+      </article>
+
+      <article class="alert-card reveal">
+        <div class="alert-top">
+          <div class="alert-icon">🔥</div>
+          <span class="status red">DIQQAT</span>
+        </div>
+        <h3>O'rmon yong'ini</h3>
+        <p>Yong'in xavfi yuqori bo'lgan hududlarda olov yoqish taqiqlanadi.</p>
+        <div class="alert-footer">🔥 Yong'in ko'rsangiz 101 ga qo'ng'iroq qiling.</div>
+      </article>
+
+      <article class="alert-card reveal">
+        <div class="alert-top">
+          <div class="alert-icon">☀️</div>
+          <span class="status orange">EHTIYOT</span>
+        </div>
+        <h3>Issiqlik to'lqini</h3>
+        <p>Kun o'rtasida ko'chaga chiqmaslikka harakat qiling, ko'p suv iching.</p>
+        <div class="alert-footer">💧 Yashil soyali joylarda dam oling.</div>
+      </article>
+
+      <article class="alert-card reveal">
+        <div class="alert-top">
+          <div class="alert-icon">❄️</div>
+          <span class="status blue">MA'LUMOT</span>
+        </div>
+        <h3>Qor bo'roni</h3>
+        <p>Kuchli qor yog'ganda sayohatni kechiktirish yaxshiroq.</p>
+        <div class="alert-footer">🚗 Avtomobilda ehtiyot bo'ling.</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom" style="border:0;margin:0;padding:0;">
+      <span>© 2026 EKOLOGY</span>
+      <span>Made with 🌱 for Earth</span>
+    </div>
+  </div>
+</footer>
+
+<script src="auth.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
